@@ -186,7 +186,7 @@ import jakarta.persistence.*;
 
 @Entity
 public class Employee {
-
+ 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -275,6 +275,8 @@ import com.app.entity.Employee;
 
 @Controller
 public class EmployeeController {
+    @Autowired
+    private EmployeeService employeeService;
 
 	//Handler Methods - http://localhost:8080/view
 	@RequestMapping("/view")
@@ -283,9 +285,9 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping("/saveReg")
-	public String getRegistrationData(Employee employee, Model model) {
-		employeeService.saveEmployeeDetails(employee);
-		model.addAttribute("msg", "Record is saved");
+	public String getRegistrationData(Employee employee, ModelMap model) { // Model : it Binds your controller data with the view
+		employeeService.saveEmployeeDetails(employee); // it will call saveEmployeeDetails(employee) and goes to service layer and saving the record control backs to its calling method in controller layer and further code will run
+		model.addAttribute("msg", "Record is saved"); // Control goes back to registration page
 		return "registration";
 	}
 }
@@ -319,6 +321,25 @@ public class EmployeeService {
 }
 EmployeeService.java
 
+##################################
+Flow of the program
+##################################
+employeeRepository.save(employee)
+       ⬇
+DB record inserted
+       ⬇
+Return to EmployeeService
+       ⬇
+Return to EmployeeController
+       ⬇
+Add success message to Model
+       ⬇
+Return "registration" view
+       ⬇
+Spring resolves and renders registration.jsp
+       ⬇
+User sees “Record is saved”
+
 _________________________________________
 What is @ModelAttribute in Spring MVC?
 @ModelAttribute is an annotation used in Spring MVC to bind form data or request parameters to Java objects
@@ -326,6 +347,16 @@ _______________________________________
 
 #############################
 Payload / DTO implementation in Spring boot
+
+Payload = The data sent by the client (like from Postman, React, or a form).
+
+DTO (Data Transfer Object) = A Java class that represents this payload —
+    used to receive or send data between layers (like Controller ↔ Service).
+You can bind directly to Employee, but it’s not a good practice in real projects.
+* Security risk
+* Validation
+* Separation of concerns
+* Simpler APIs
 ############################
 Step 1: Modify registration.jsp
 
@@ -377,12 +408,15 @@ public class EmployeeController {
 //	}
 	
 	@RequestMapping("/saveReg")
-	public String getRegistrationData(@ModelAttribute EmployeeDto employeeDto, Model model) {
-		employeeService.saveEmployeeDetails(employeeDto);
-		model.addAttribute("msg", "Record is saved");
-        return "registration";
-	}
-	
+	public String getRegistrationData(@ModelAttribute EmployeeDto employeeDto, Model model) { // Model : it Binds your controller data with the view
+		try{
+            employeeService.saveEmployeeDetails(employeeDto);
+		    model.addAttribute("msg", "Record is saved");
+            return "registration";
+	}catch{
+           model.addAttribute("msg", "Record is saved");
+            return "registration";
+}
 }
 Step 3: Add Address Entity
 ---------------------------
