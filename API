@@ -8,6 +8,16 @@ What are web service/ API / Restful service?
 
 3. Cross-Platform Scalability
 → Easily supports multiple front-end clients like Android, iOS, Web browsers, or even IoT devices via standard HTTP/JSON communication.
+########################################################################################################################################
+
+Definition: An API is a set of rules that allows one software application to interact with another.
+Types:
+* Web APIs (HTTP-based)
+* Library APIs
+* OS-level APIs
+* Hardware APIs
+
+👉 All web services are APIs, but not all APIs are web services.
 
 What is JSON (Javascript Object Notation)?
 ##########################################
@@ -34,6 +44,12 @@ Example
     "pincode": 560001
   }
 }
+#############
+Web Service:
+
+-> Definition: A Web Service is a type of API that is accessible over a network using HTTP.
+
+-> It allows applications to communicate with each other over the web.
 
 Types of web services
 #####################
@@ -42,9 +58,21 @@ Types of web services
 -> Will exchange data between applications using XML
 -> Difficult to implement
 
+👉So, a web service is a network-accessible API.
+
 2. Restful webservices
+-> Definition: A RESTful service is a type of Web Service that uses the REST architecture.
+-> REST (Representational State Transfer) is a set of principles for designing networked applications.
 -> Data exchange between application will be done using JSON (We can also use xml)
 -> Easy to implement
+
+It uses HTTP methods like:
+* GET – read data
+* POST – create data
+* PUT – update data
+* DELETE – remove data
+
+👉 REST is lightweight and commonly used in modern web apps and mobile apps.
 
 Note: Spring boot makes restful webservice implementation easy
 
@@ -97,7 +125,7 @@ import com.app.dto.APIResponse;
 import com.app.dto.EmployeeDto;
 import com.app.service.EmployeeService;
 
-@RestController
+@RestController // The @RestController job is to read the JSON data and give it to service layer
 @RequestMapping("/api/v1/employee")
 public class EmployeeControllerAPI {
 	// http://localhost:8080/api/v1/employee/add
