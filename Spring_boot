@@ -527,9 +527,9 @@ Step 2: Modify EmployeeController.java
 
 @RequestMapping("/saveRegistration")
 	public String getDataUsingRequestParam(
-			 @RequestParam String firstName,
+			 @RequestParam String firstName, // @RequestParam : to bind your form data with this(firstName) method argument.
 			 @RequestParam String lastName,
-			 @RequestParam("emailId") String email,
+			 @RequestParam("emailId") String email,// Name(emailId) attribute is different in our form and parameter(email) is different.
 			 @RequestParam String mobile
 			) {
 		
