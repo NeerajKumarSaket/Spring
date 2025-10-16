@@ -21,6 +21,7 @@ Types:
 
 What is JSON (Javascript Object Notation)?
 ##########################################
+->It's used for sending data between a server and a client, such as a web browser or mobile app
 -> Format: Key-Value pairs
 -> Language-independent (used with Java, Python, JS, etc.)
 -> Supports:
@@ -126,15 +127,15 @@ import com.app.dto.EmployeeDto;
 import com.app.service.EmployeeService;
 
 @RestController // The @RestController job is to read the JSON data and give it to service layer
-@RequestMapping("/api/v1/employee")
+@RequestMapping("/api/v1/employee") //It tells Spring which URL (path) a particular method or class should handle.
 public class EmployeeControllerAPI {
 	// http://localhost:8080/api/v1/employee/add
 	
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@PostMapping("/add")
-	public ResponseEntity<APIResponse<EmployeeDto>> createEmployeeRegistration(@RequestBody EmployeeDto employeeDto) {
+	@PostMapping("/add") // @PostMapping is an annotation which is used to save record in database.
+	public ResponseEntity<APIResponse<EmployeeDto>> createEmployeeRegistration(@RequestBody EmployeeDto employeeDto) { // to copy the Json content to java object we will use @RequestBody
 		EmployeeDto dto = employeeService.saveEmployeeDetails(employeeDto);
 		
 		APIResponse<EmployeeDto> response = new APIResponse<>();
