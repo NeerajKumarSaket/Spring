@@ -1,5 +1,8 @@
 What is Spring Security?
 -> Spring Security is a framework that focuses on providing both authentication and authorization to Java applications.
+                                                      or
+->Spring Security is a powerful and highly customizable authentication and access-control framework. 
+It is the de-facto standard for securing Spring-based applications
 
 #############################################
 🔐 Core Features of Spring Security:
@@ -129,19 +132,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
+@Configuration // This tells Spring that this class contains configuration code (like settings or bean definitions).
+@EnableWebSecurity // This enables Spring Security for the web application.
+                      Without this, security features like login, logout, and authentication rules won’t work.
 public class AppSecurityConfig {
-
 	
-	@Bean
-	public SecurityFilterChain securityConfig(HttpSecurity http) throws Exception{
-		http.authorizeHttpRequests(
+	@Bean//This tells Spring to create and manage the returned object (a SecurityFilterChain here) as a Spring Bean.
+	public SecurityFilterChain securityConfig(HttpSecurity http) throws Exception{//This is a method that returns a SecurityFilterChain object — basically, a chain of security filters that control how HTTP requests are handled.
+
+		http.authorizeHttpRequests(  //You are defining the authorization rules — who can access which URL.
 				 req->{
-					 req.anyRequest().permitAll();
+					 req.anyRequest().permitAll(); //For any HTTP request, allow it without authentication.
+                                                   //(So everyone can access everything — no login needed!)
 				 }
 				);
-		return http.build();
+		return http.build(); //This builds the security filter chain based on your configuration and returns it.
 		
 	}
 }
@@ -157,19 +162,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api/v1/welcome")
+@RestController //This tells Spring that this class is a REST controller — meaning it will handle HTTP requests (like GET, POST, etc.) and return data directly (usually JSON or text), not web pages.
+@RequestMapping("/api/v1/welcome") //This defines a base URL path for all endpoints inside this class.{ So every method URL inside this controller will start with /api/v1/welcome. }
 public class WelcomeController {
+
 	
-	
-	@GetMapping("/hello")
-	public String hello() {
-		return "hello";
+	@GetMapping("/hello") //This tells Spring to handle GET requests (like when someone visits in browser or calls from Postman) that go to {/api/v1/welcome/hello}
+	public String hello() { //This method runs when a user hits /api/v1/welcome/hello
+		return "hello";     //It simply returns the text "hello" as the response.
 	}
 	
-	@GetMapping("/hi")
-	public String hi() {
-		return "hi";
+	@GetMapping("/hi")  //This tells Spring to handle GET requests (like when someone visits in browser or calls from Postman) that go to {/api/v1/welcome/hello}
+	public String hi() {//Same as above — it listens for GET requests to /api/v1/welcome/hi
+		return "hi";   //When someone calls /api/v1/welcome/hi, this method returns the text "hi".
 	}
 
 }
@@ -183,20 +188,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
+@Configuration  // This tells Spring that this class contains configuration code (like settings or bean definitions).
+@EnableWebSecurity // This enables Spring Security for the web application.
+                      Without this, security features like login, logout, and authentication rules won’t work.
 public class AppSecurityConfig {
 
 	
-	@Bean
-	public SecurityFilterChain securityConfig(HttpSecurity http) throws Exception{
-		http.authorizeHttpRequests(
+	@Bean //This tells Spring to create and manage the returned object (a SecurityFilterChain here) as a Spring Bean.
+	public SecurityFilterChain securityConfig(HttpSecurity http) throws Exception{ //This is a method that returns a SecurityFilterChain object — basically, a chain of security filters that control how HTTP requests are handled.
+		http.authorizeHttpRequests( // You are defining the authorization rules — who can access which URL.
 				 req->{
-					req.requestMatchers("/api/v1/welcome/hello").permitAll()
-					.anyRequest().authenticated();
+					req.requestMatchers("/api/v1/welcome/hello").permitAll() //Anyone (even users who are not logged in) can access this specific URL: /api/v1/welcome/hello
+					.anyRequest().authenticated(); //All other requests (any URL except /api/v1/welcome/hello) require authentication(login or valid token).
 				 }
 				);
-		return http.build();
+		return http.build(); //This finalizes all the above security rules and builds the SecurityFilterChain
 		
 	}
 
