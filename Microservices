@@ -358,6 +358,7 @@ Why API gateway?
 3. Centralized Management: It centralizes concerns like security, authentication, and logging
 
 How to implement API gateway:
+
 ----------------------------
 
 Step 1 create APi gateway Spring boot project with following dependencies
@@ -447,6 +448,25 @@ Step 2: When you login it should generate JWT Token
 Step 3: Verify the Token in API Gateway using JwtAuthenticationFilter implements GlobalFilter class
 Step 4:  Inside Filter method verify the token
 
+####################
+Interview Questions:
+
+1: How did you divide your microservices into mini project
+-> I just went with the simple design pattern which is called as Domain Driven Design Pattern where I started dividing my project based on the domain.
+1: What is API Gate Way
+->It provides a common entry point for all microservices Which results in de-coupling right of microservices from the customers point of view He would not know these are three different projects, accessbility happening from single URL.
+-> When we deal with Spring Security You have to now have API Gate-Way to apply Spring Security configuaration in a centralized manner.
+
+3: What is Eureka server
+-> Eureka server plays a very major role when it comes to microservices concept because one of the challange with microservices is Since they are different-different project every project URL will be different and these URL keeps changing Suppose when these projects are deployed on testing server, development server whether it is local environment I am testing these URL keeps changing
+-> Now when you want to make one microservice communicate with another microservice if these URL keeps changing I have to keep changing my internal code logic, So Eureka server makes these microservies register their and it gives one unique name
+-> now based on that name I can access the microservices and remove that hard-coded URL dependencies. So tomarrow even if the URL changes I did not change anything in the project
+
+4: Why admin server is required
+-> sir admin servers are very important in microservices architecture because they will give us the health of our application and the resources utilization that memory point of view how much memory utilization is happening when these microservices is running which microservice is down and I can analyze with my admin server.
+
+5: Why zipkin server is required
+-> Because I can trace the flow of micrservices calls and the time taken for me to get the response from each microservice can be analyazed, So that can be analyazed here with my Zipkin server.
 
 
 
