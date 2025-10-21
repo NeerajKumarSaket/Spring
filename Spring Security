@@ -991,13 +991,27 @@ Click Send.
 
 You should get a 200 OK and the "Welcome, Admin!" message if the role is correctly configured.
 ----------------------------------------------------------------------------------------------------------------------
+JWT token:
+-> A JSON Web Token (JWT) is a secure way to send information between a client and a server. 
+-> It is mainly used in web applications and APIs to verify users and prevent unauthorized access. 
+-> A JWT is JSON data secured with a cryptographic signature.
 
-Imnport Notes
+Important Notes
 ############################
 Stateless: User details are not stored at the server side. Hence every every request we have to perform authention
 
 Statefull: User details are  stored at the server side. Once the use perform login, Server will generate SessionId, One Copy of session will be kept at server side & another copy is given to the client, so that for subsequent request we can authenticate the user by sending seesionId with the request to server. When session Id matches you will get the respsone
+####################################################################################################
 
+Stateless vs Stateful — Comparison Table
+
+| **Feature**               | **Stateless**                    | **Stateful**                       |
+| ------------------------- | -------------------------------- | ---------------------------------- |
+| Remembers client state?   | ❌ No                            | ✅ Yes                           |
+| Each request independent? | ✅ Yes                           | ❌ No                            |
+| Server stores session?    | ❌ No                            | ✅ Yes                           |
+| Scalability               | ✅ Easy to scale                 | ❌ Harder to scale               |
+| Examples                  | REST APIs, serverless functions  | Web sessions, multiplayer games   |
 ---------------------------------------------------------------------------------
 
 Advantages of JWT Token
